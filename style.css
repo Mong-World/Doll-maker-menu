@@ -12,10 +12,21 @@
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
+
     overflow: hidden;
+
     background: #030404;
+
     font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Prevent images being highlighted or dragged */
+
+img {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 
 /* ==========================================
@@ -30,7 +41,7 @@ body {
     justify-content: center;
     align-items: center;
 
-    padding: 30px;
+    padding: 24px;
 
     background:
         radial-gradient(
@@ -44,29 +55,24 @@ body {
 }
 
 /* ==========================================
-   GUIDE WINDOW
+   GUIDE
 ========================================== */
 
 #guide {
     position: relative;
 
-    width: min(780px, 82vw);
+    width: min(760px, 80vw);
+    max-height: 92vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    /*
-       Makes room for the buttons extending
-       below the main image.
-    */
-    margin-bottom: 90px;
-
     animation: popIn 0.25s ease;
 }
 
 /* ==========================================
-   MAIN IMAGE
+   IMAGE CONTAINER
 ========================================== */
 
 #imageContainer {
@@ -79,6 +85,10 @@ body {
     align-items: center;
 }
 
+/* ==========================================
+   MAIN INFORMATION IMAGE
+========================================== */
+
 #guideImage {
     width: 100%;
     height: auto;
@@ -88,7 +98,7 @@ body {
     border-radius: 4px;
 
     box-shadow:
-        0 20px 55px rgba(0, 0, 0, 0.7);
+        0 20px 60px rgba(0, 0, 0, 0.7);
 
     transition:
         opacity 0.18s ease,
@@ -102,19 +112,16 @@ body {
 
 /* ==========================================
    NAVIGATION
+   Positioned inside the main page
 ========================================== */
 
 #navigation {
     position: absolute;
 
     left: 50%;
-    bottom: 0;
+    bottom: 3%;
 
-    /*
-       Moves most of each button below the image,
-       leaving a small overlap at the top.
-    */
-    transform: translate(-50%, 82%);
+    transform: translateX(-50%);
 
     z-index: 20;
 
@@ -122,10 +129,10 @@ body {
     justify-content: center;
     align-items: center;
 
-    gap: 12px;
+    gap: 8px;
 
     width: max-content;
-    max-width: 100%;
+    max-width: 92%;
 }
 
 /* ==========================================
@@ -133,79 +140,84 @@ body {
 ========================================== */
 
 .navButton {
-    width: clamp(95px, 15vw, 145px);
+    width: clamp(62px, 10vw, 90px);
     height: auto;
 
     display: block;
 
     cursor: pointer;
 
+    border-radius: 2px;
+
+    opacity: 0.9;
+
+    filter:
+        drop-shadow(0 4px 7px rgba(0, 0, 0, 0.55));
+
     transition:
         transform 0.18s ease,
         filter 0.18s ease,
         opacity 0.18s ease;
-
-    filter:
-        drop-shadow(0 7px 11px rgba(0, 0, 0, 0.55));
 }
 
 .navButton:hover {
+    opacity: 1;
+
     transform:
-        translateY(-3px)
-        scale(1.025);
+        translateY(-2px)
+        scale(1.04);
 }
 
 .navButton.active {
+    opacity: 1;
+
     transform:
-        translateY(-3px)
-        scale(1.035);
+        translateY(-2px)
+        scale(1.05);
 
     filter:
-        brightness(1.12)
-        drop-shadow(0 0 12px rgba(220, 175, 90, 0.55));
+        brightness(1.14)
+        drop-shadow(0 0 9px rgba(220, 175, 90, 0.6));
 }
 
 /* ==========================================
-   CLOSE BUTTON
+   CUSTOM CLOSE IMAGE
 ========================================== */
 
 #closeButton {
     position: absolute;
 
-    top: -17px;
-    right: -17px;
+    top: 12px;
+    right: 12px;
 
-    width: 48px;
-    height: 48px;
+    width: clamp(28px, 4.5vw, 42px);
+    height: auto;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border: none;
-    border-radius: 50%;
-
-    background: #751d1d;
-    color: #ffffff;
-
-    font-size: 28px;
-    font-weight: bold;
-    line-height: 1;
+    display: block;
 
     cursor: pointer;
+
     z-index: 100;
 
-    box-shadow:
-        0 8px 18px rgba(0, 0, 0, 0.55);
+    opacity: 0.92;
+
+    filter:
+        drop-shadow(0 4px 8px rgba(0, 0, 0, 0.65));
 
     transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+        transform 0.18s ease,
+        filter 0.18s ease,
+        opacity 0.18s ease;
 }
 
 #closeButton:hover {
-    background: #a52b2b;
+    opacity: 1;
+
     transform: scale(1.08);
+
+    filter:
+        brightness(1.15)
+        drop-shadow(0 0 8px rgba(255, 255, 255, 0.22));
 }
 
 /* ==========================================
@@ -227,8 +239,8 @@ body {
         opacity: 0;
 
         transform:
-            translateY(18px)
-            scale(0.96);
+            translateY(16px)
+            scale(0.97);
     }
 
     to {
@@ -247,31 +259,25 @@ body {
 @media (max-width: 800px) {
 
     #overlay {
-        padding: 22px;
+        padding: 18px;
     }
 
     #guide {
-        width: min(650px, 84vw);
-        margin-bottom: 76px;
+        width: min(620px, 82vw);
     }
 
     #navigation {
-        gap: 10px;
-        transform: translate(-50%, 82%);
+        bottom: 3%;
+        gap: 7px;
     }
 
     .navButton {
-        width: clamp(90px, 20vw, 125px);
+        width: clamp(58px, 12vw, 78px);
     }
 
     #closeButton {
-        top: -14px;
-        right: -14px;
-
-        width: 44px;
-        height: 44px;
-
-        font-size: 25px;
+        top: 9px;
+        right: 9px;
     }
 }
 
@@ -282,37 +288,29 @@ body {
 @media (max-width: 600px) {
 
     #overlay {
-        padding: 16px;
+        padding: 12px;
     }
 
     #guide {
-        width: 68vw;
+        width: 74vw;
         max-width: 470px;
-
-        margin-bottom: 68px;
     }
 
     #navigation {
-        gap: 7px;
-
-        /*
-           Slightly less overlap on small screens.
-        */
-        transform: translate(-50%, 80%);
+        bottom: 2.5%;
+        gap: 5px;
+        max-width: 94%;
     }
 
     .navButton {
-        width: clamp(82px, 23vw, 118px);
+        width: clamp(52px, 17vw, 72px);
     }
 
     #closeButton {
-        top: -12px;
-        right: -12px;
+        top: 7px;
+        right: 7px;
 
-        width: 42px;
-        height: 42px;
-
-        font-size: 24px;
+        width: clamp(26px, 8vw, 36px);
     }
 }
 
@@ -323,15 +321,15 @@ body {
 @media (max-width: 400px) {
 
     #guide {
-        width: 72vw;
-        margin-bottom: 60px;
+        width: 78vw;
     }
 
     #navigation {
-        gap: 5px;
+        bottom: 2%;
+        gap: 4px;
     }
 
     .navButton {
-        width: 78px;
+        width: 54px;
     }
 }
