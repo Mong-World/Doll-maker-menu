@@ -2,62 +2,70 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>The Doll Maker - Survival Guide</title>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-    <!-- Dark Background -->
-
     <div id="overlay">
-
-        <!-- Guide Window -->
 
         <div id="guide">
 
-            <!-- Close Button -->
+            <!-- Custom close button -->
+            <img
+                id="closeButton"
+                src="assets/cross.png"
+                alt="Close survival guide"
+                draggable="false"
+            >
 
-            <button id="closeButton">&times;</button>
-
-            <!-- Main Information Image -->
-
+            <!-- Main information page -->
             <div id="imageContainer">
 
                 <img
                     id="guideImage"
                     src="assets/controls.jpeg"
-                    alt="Guide Page">
+                    alt="Controls information"
+                    draggable="false"
+                >
 
-            </div>
+                <!-- Buttons sit inside the main page -->
+                <nav id="navigation" aria-label="Survival guide sections">
 
-            <!-- Navigation Buttons -->
+                    <img
+                        id="controlsButton"
+                        class="navButton active"
+                        src="assets/controlsbutton.jpeg"
+                        alt="Show controls information"
+                        draggable="false"
+                    >
 
-            <div id="navigation">
+                    <img
+                        id="inventoryButton"
+                        class="navButton"
+                        src="assets/inventorybutton.jpeg"
+                        alt="Show inventory information"
+                        draggable="false"
+                    >
 
-                <img
-                    id="controlsButton"
-                    class="navButton active"
-                    src="assets/controlsbutton.jpeg"
-                    alt="Controls">
+                    <img
+                        id="fearButton"
+                        class="navButton"
+                        src="assets/fearinfobutton.jpeg"
+                        alt="Show fear information"
+                        draggable="false"
+                    >
 
-                <img
-                    id="inventoryButton"
-                    class="navButton"
-                    src="assets/inventorybutton.jpeg"
-                    alt="Inventory">
-
-                <img
-                    id="fearButton"
-                    class="navButton"
-                    src="assets/fearinfobutton.jpeg"
-                    alt="Fear Information">
+                </nav>
 
             </div>
 
