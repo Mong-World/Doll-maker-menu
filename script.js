@@ -32,17 +32,17 @@ const overlay =
 
 const pages = {
     controls: {
-        image: "assets/controls.jpeg",
+        image: "assets/controls.png",
         alt: "Controls information"
     },
 
     inventory: {
-        image: "assets/inventory.jpeg",
+        image: "assets/inventory.png",
         alt: "Inventory information"
     },
 
     fear: {
-        image: "assets/fearinfo.jpeg",
+        image: "assets/fearinfo.png",
         alt: "Fear information"
     }
 };
