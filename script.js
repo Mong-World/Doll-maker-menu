@@ -3,9 +3,9 @@
    SURVIVAL GUIDE
 =========================================== */
 
-// -----------------------------
-// Elements
-// -----------------------------
+/* -------------------------------------------
+   ELEMENTS
+------------------------------------------- */
 
 const guideImage = document.getElementById("guideImage");
 
@@ -16,177 +16,257 @@ const fearButton = document.getElementById("fearButton");
 const closeButton = document.getElementById("closeButton");
 const overlay = document.getElementById("overlay");
 
-// -----------------------------
-// Image Paths
-// -----------------------------
+/* -------------------------------------------
+   PAGE SETTINGS
+------------------------------------------- */
 
 const pages = {
+    controls: {
+        image: "assets/controls.jpeg",
+        alt: "Controls information"
+    },
 
-    controls: "assets/controls.jpeg",
+    inventory: {
+        image: "assets/inventory.jpeg",
+        alt: "Inventory information"
+    },
 
-    inventory: "assets/inventory.jpeg",
-
-    fear: "assets/fearinfo.jpeg"
-
+    fear: {
+        image: "assets/fearinfo.jpeg",
+        alt: "Fear information"
+    }
 };
 
-// -----------------------------
-// Current Page
-// -----------------------------
+/* -------------------------------------------
+   STARTING PAGE FROM URL
 
-let currentPage = "controls";
+   Normal:
+   https://mong-world.github.io/Doll-maker/
 
-// -----------------------------
-// Change Page
-// -----------------------------
+   Inventory:
+   https://mong-world.github.io/Doll-maker/?page=inventory
 
-function showPage(page){
+   Fear:
+   https://mong-world.github.io/Doll-maker/?page=fear
+------------------------------------------- */
 
-    if(page === currentPage) return;
+const urlParameters = new URLSearchParams(window.location.search);
+
+const requestedPage = urlParameters
+    .get("page")
+    ?.toLowerCase();
+
+let currentPage = pages[requestedPage]
+    ? requestedPage
+    : "controls";
+
+/* -------------------------------------------
+   SHOW PAGE
+------------------------------------------- */
+
+function showPage(pageName, animate = true) {
+
+    if (!pages[pageName]) {
+        pageName = "controls";
+    }
+
+    if (pageName === currentPage && animate) {
+        updateButtons();
+        return;
+    }
+
+    const newPage = pages[pageName];
+
+    if (!animate) {
+        guideImage.src = newPage.image;
+        guideImage.alt = newPage.alt;
+
+        currentPage = pageName;
+
+        updateButtons();
+        return;
+    }
 
     guideImage.classList.add("fade");
 
-    setTimeout(() => {
+    window.setTimeout(() => {
 
-        guideImage.src = pages[page];
+        guideImage.src = newPage.image;
+        guideImage.alt = newPage.alt;
 
-        guideImage.onload = () => {
+        currentPage = pageName;
 
+        updateButtons();
+
+        /*
+         Remove the fade when the new image
+         has finished loading.
+        */
+
+        if (guideImage.complete) {
             guideImage.classList.remove("fade");
+        } else {
+            guideImage.addEventListener(
+                "load",
+                () => {
+                    guideImage.classList.remove("fade");
+                },
+                { once: true }
+            );
+        }
 
-        };
-
-    },180);
-
-    currentPage = page;
-
-    updateButtons();
-
+    }, 180);
 }
 
-// -----------------------------
-// Active Button
-// -----------------------------
+/* -------------------------------------------
+   ACTIVE BUTTON
+------------------------------------------- */
 
-function updateButtons(){
+function updateButtons() {
 
-    document
-        .querySelectorAll(".navButton")
-        .forEach(button => {
+    const buttons = [
+        controlsButton,
+        inventoryButton,
+        fearButton
+    ];
 
-            button.classList.remove("active");
+    buttons.forEach((button) => {
+        button.classList.remove("active");
+    });
 
-        });
-
-    if(currentPage === "controls"){
-
+    if (currentPage === "controls") {
         controlsButton.classList.add("active");
-
     }
 
-    if(currentPage === "inventory"){
-
+    if (currentPage === "inventory") {
         inventoryButton.classList.add("active");
-
     }
 
-    if(currentPage === "fear"){
-
+    if (currentPage === "fear") {
         fearButton.classList.add("active");
-
     }
-
 }
 
-// -----------------------------
-// Button Events
-// -----------------------------
+/* -------------------------------------------
+   NAVIGATION CLICKS
+------------------------------------------- */
 
 controlsButton.addEventListener("click", () => {
-
     showPage("controls");
-
 });
 
 inventoryButton.addEventListener("click", () => {
-
     showPage("inventory");
-
 });
 
 fearButton.addEventListener("click", () => {
-
     showPage("fear");
-
 });
 
-// -----------------------------
-// Close Guide
-// -----------------------------
+/* -------------------------------------------
+   CLOSE GUIDE
+------------------------------------------- */
 
-function closeGuide(){
+function closeGuide() {
+
+    /*
+     Inside Portals, properly close the iframe.
+    */
+
+    if (
+        window.PortalsSdk &&
+        typeof window.PortalsSdk.closeIframe === "function"
+    ) {
+        window.PortalsSdk.closeIframe();
+        return;
+    }
+
+    /*
+     Browser preview fallback.
+    */
 
     overlay.style.opacity = "0";
-
     overlay.style.pointerEvents = "none";
 
-    setTimeout(() => {
-
+    window.setTimeout(() => {
         overlay.style.display = "none";
-
-    },250);
-
+    }, 250);
 }
 
 closeButton.addEventListener("click", closeGuide);
 
-// -----------------------------
-// ESC Key
-// -----------------------------
+/* -------------------------------------------
+   KEYBOARD CONTROLS
+------------------------------------------- */
 
-document.addEventListener("keydown",(event)=>{
+document.addEventListener("keydown", (event) => {
 
-    if(event.key === "Escape"){
-
+    if (event.key === "Escape") {
         closeGuide();
-
     }
 
-});
+    /*
+     Only use these shortcuts while the
+     guide iframe is open.
+    */
 
-// -----------------------------
-// Keyboard Shortcuts
-// -----------------------------
-//
-// 1 = Controls
-// 2 = Inventory
-// 3 = Fear
-//
-
-document.addEventListener("keydown",(event)=>{
-
-    if(event.key === "1"){
-
+    if (event.key === "1") {
         showPage("controls");
-
     }
 
-    if(event.key === "2"){
-
+    if (event.key === "2") {
         showPage("inventory");
-
     }
 
-    if(event.key === "3"){
-
+    if (event.key === "3") {
         showPage("fear");
-
     }
-
 });
 
-// -----------------------------
-// Initialise
-// -----------------------------
+/* -------------------------------------------
+   OPTIONAL PORTALS MESSAGES
 
-updateButtons();
+   A Portals "Send Message To Iframes" effect
+   can send:
+
+   {"page":"inventory"}
+
+   This switches an iframe that is already open.
+------------------------------------------- */
+
+function enablePortalsMessages() {
+
+    if (
+        !window.PortalsSdk ||
+        typeof window.PortalsSdk.setMessageListener !== "function"
+    ) {
+        return;
+    }
+
+    window.PortalsSdk.setMessageListener((message) => {
+
+        try {
+            const data = JSON.parse(message);
+
+            if (
+                typeof data.page === "string" &&
+                pages[data.page.toLowerCase()]
+            ) {
+                showPage(data.page.toLowerCase());
+            }
+
+        } catch (error) {
+            console.warn(
+                "The guide received an invalid Portals message:",
+                message
+            );
+        }
+    });
+}
+
+/* -------------------------------------------
+   INITIALISE
+------------------------------------------- */
+
+showPage(currentPage, false);
+enablePortalsMessages();
