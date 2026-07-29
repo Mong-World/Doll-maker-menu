@@ -1,7 +1,7 @@
-/* =====================================
+/* ==========================================
    THE DOLL MAKER
    SURVIVAL GUIDE
-===================================== */
+========================================== */
 
 *{
     margin:0;
@@ -21,13 +21,13 @@ body{
 
 }
 
-/* =====================================
+/* ==========================================
    BACKGROUND
-===================================== */
+========================================== */
 
 body{
 
-    background:transparent;
+    background:#030404;
 
 }
 
@@ -43,25 +43,27 @@ body{
 
     align-items:center;
 
-    background:rgba(0,0,0,.72);
-
-    backdrop-filter:blur(8px);
+    background:
+        radial-gradient(
+            circle,
+            #090909 0%,
+            #050505 55%,
+            #030404 100%
+        );
 
     animation:fadeIn .25s ease;
 
 }
 
-/* =====================================
-   MAIN WINDOW
-===================================== */
+/* ==========================================
+   GUIDE WINDOW
+========================================== */
 
 #guide{
 
     position:relative;
 
-    width:min(1200px,92vw);
-
-    height:auto;
+    width:min(1050px,88vw);
 
     display:flex;
 
@@ -73,9 +75,9 @@ body{
 
 }
 
-/* =====================================
-   INFORMATION IMAGE
-===================================== */
+/* ==========================================
+   MAIN IMAGE
+========================================== */
 
 #imageContainer{
 
@@ -97,18 +99,16 @@ body{
 
     display:block;
 
-    border-radius:14px;
+    border-radius:4px;
 
     box-shadow:
-    0 20px 60px rgba(0,0,0,.55);
+        0 22px 60px rgba(0,0,0,.60);
 
     transition:
-    opacity .18s ease,
-    transform .18s ease;
+        opacity .18s ease,
+        transform .18s ease;
 
 }
-
-/* Fade class */
 
 #guideImage.fade{
 
@@ -118,13 +118,17 @@ body{
 
 }
 
-/* =====================================
-   BUTTON BAR
-===================================== */
+/* ==========================================
+   NAVIGATION
+========================================== */
 
 #navigation{
 
-    margin-top:20px;
+    position:relative;
+
+    margin-top:-12px;
+
+    z-index:20;
 
     display:flex;
 
@@ -132,98 +136,104 @@ body{
 
     align-items:center;
 
-    gap:22px;
+    gap:18px;
 
     flex-wrap:wrap;
 
 }
 
-/* =====================================
-   BUTTON IMAGES
-===================================== */
+/* ==========================================
+   BUTTONS
+========================================== */
 
 .navButton{
 
-    width:190px;
+    width:180px;
 
     cursor:pointer;
 
     transition:
-    transform .18s ease,
-    filter .18s ease,
-    opacity .18s ease;
+        transform .18s ease,
+        filter .18s ease;
 
-    filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));
+    filter:
+        drop-shadow(0 8px 14px rgba(0,0,0,.45));
 
 }
 
 .navButton:hover{
 
-    transform:translateY(-4px) scale(1.04);
+    transform:
+        translateY(-3px)
+        scale(1.03);
 
 }
 
 .navButton.active{
 
-    transform:scale(1.06);
+    transform:
+        translateY(-2px)
+        scale(1.05);
 
     filter:
-
-    brightness(1.15)
-
-    drop-shadow(0 0 12px rgba(255,215,120,.7));
+        brightness(1.15)
+        drop-shadow(0 0 16px rgba(255,210,100,.65));
 
 }
 
-/* =====================================
+/* ==========================================
    CLOSE BUTTON
-===================================== */
+========================================== */
 
 #closeButton{
 
     position:absolute;
 
-    top:-18px;
+    top:-16px;
 
-    right:-18px;
+    right:-16px;
 
-    width:52px;
+    width:48px;
 
-    height:52px;
+    height:48px;
 
     border:none;
 
     border-radius:50%;
 
-    background:#7d1f1f;
+    background:#751d1d;
 
     color:white;
 
-    font-size:30px;
+    font-size:28px;
+
+    font-weight:bold;
 
     cursor:pointer;
 
-    z-index:500;
+    z-index:100;
 
-    transition:.2s;
+    transition:
+        background .2s ease,
+        transform .2s ease;
 
     box-shadow:
-
-    0 8px 20px rgba(0,0,0,.45);
+        0 8px 18px rgba(0,0,0,.5);
 
 }
 
 #closeButton:hover{
 
-    background:#b42f2f;
+    background:#a92c2c;
 
-    transform:scale(1.08);
+    transform:
+        scale(1.08);
 
 }
 
-/* =====================================
+/* ==========================================
    ANIMATIONS
-===================================== */
+========================================== */
 
 @keyframes fadeIn{
 
@@ -248,10 +258,8 @@ body{
         opacity:0;
 
         transform:
-
-        scale(.95)
-
-        translateY(20px);
+            translateY(20px)
+            scale(.96);
 
     }
 
@@ -260,20 +268,24 @@ body{
         opacity:1;
 
         transform:
-
-        scale(1)
-
-        translateY(0);
+            translateY(0)
+            scale(1);
 
     }
 
 }
 
-/* =====================================
+/* ==========================================
    RESPONSIVE
-===================================== */
+========================================== */
 
 @media(max-width:1100px){
+
+    #guide{
+
+        width:92vw;
+
+    }
 
     .navButton{
 
@@ -287,15 +299,23 @@ body{
 
     .navButton{
 
-        width:140px;
+        width:135px;
+
+    }
+
+    #navigation{
+
+        gap:14px;
+
+        margin-top:-10px;
 
     }
 
     #closeButton{
 
-        width:46px;
+        width:44px;
 
-        height:46px;
+        height:44px;
 
         font-size:24px;
 
@@ -305,15 +325,17 @@ body{
 
 @media(max-width:600px){
 
-    #navigation{
+    .navButton{
 
-        gap:12px;
+        width:105px;
 
     }
 
-    .navButton{
+    #navigation{
 
-        width:110px;
+        gap:8px;
+
+        margin-top:-8px;
 
     }
 
