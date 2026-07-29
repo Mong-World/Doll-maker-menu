@@ -1,203 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Doll Guide</title>
+    <title>The Doll Maker - Survival Guide</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<div id="overlay">
+    <!-- Dark Background -->
 
-    <div id="book">
+    <div id="overlay">
 
-        <button id="closeButton">✕</button>
+        <!-- Guide Window -->
 
-        <div id="bookShadow"></div>
+        <div id="guide">
 
-        <div id="paper">
+            <!-- Close Button -->
 
-            <header>
+            <button id="closeButton">&times;</button>
 
-                <h1>The Doll's Guide</h1>
+            <!-- Main Information Image -->
 
-                <p class="subtitle">
-                    Survival Information
-                </p>
+            <div id="imageContainer">
 
-            </header>
+                <img
+                    id="guideImage"
+                    src="assets/controls.jpeg"
+                    alt="Guide Page">
 
-            <nav>
+            </div>
 
-                <button class="tab active" data-page="controls">
+            <!-- Navigation Buttons -->
 
-                    <span class="icon">
-                        ⌨
-                    </span>
+            <div id="navigation">
 
-                    Controls
+                <img
+                    id="controlsButton"
+                    class="navButton active"
+                    src="assets/controlsbutton.jpeg"
+                    alt="Controls">
 
-                </button>
+                <img
+                    id="inventoryButton"
+                    class="navButton"
+                    src="assets/inventorybutton.jpeg"
+                    alt="Inventory">
 
-                <button class="tab" data-page="inventory">
+                <img
+                    id="fearButton"
+                    class="navButton"
+                    src="assets/fearinfobutton.jpeg"
+                    alt="Fear Information">
 
-                    <span class="icon">
-                        🎒
-                    </span>
-
-                    Inventory Info
-
-                </button>
-
-                <button class="tab" data-page="fear">
-
-                    <span class="icon">
-                        🕯
-                    </span>
-
-                    Fear Info
-
-                </button>
-
-            </nav>
-
-            <main>
-
-                <!-- CONTROLS -->
-
-                <section
-                    class="page active"
-                    id="controls">
-
-                    <div class="row">
-
-                        <span class="key">
-                            WASD
-                        </span>
-
-                        <span class="desc">
-                            Move
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span class="key">
-                            Shift
-                        </span>
-
-                        <span class="desc">
-                            Sprint
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span class="key">
-                            Space
-                        </span>
-
-                        <span class="desc">
-                            Jump
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span class="key">
-                            1
-                        </span>
-
-                        <span class="desc">
-                            Open / Close Inventory
-                        </span>
-
-                    </div>
-
-                </section>
-
-                <!-- INVENTORY -->
-
-                <section
-                    class="page"
-                    id="inventory">
-
-                    <h2>
-
-                        Inventory
-
-                    </h2>
-
-                    <p>
-
-                        Press <strong>1</strong> to open or close your inventory.
-
-                    </p>
-
-                    <p>
-
-                        Use items near objects to unlock new paths and progress.
-
-                    </p>
-
-                </section>
-
-                <!-- FEAR -->
-
-                <section
-                    class="page"
-                    id="fear">
-
-                    <h2>
-
-                        Fear
-
-                    </h2>
-
-                    <p>
-
-                        Lanterns and lights mark safe spaces.
-
-                    </p>
-
-                    <p>
-
-                        Entering a safe space reduces your Fear.
-
-                    </p>
-
-                    <p>
-
-                        If Fear becomes too high,
-                        the doll will perish.
-
-                    </p>
-
-                </section>
-
-            </main>
+            </div>
 
         </div>
 
     </div>
 
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 
