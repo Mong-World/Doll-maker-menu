@@ -1,24 +1,27 @@
-/* ===========================================
-   THE DOLL MAKER
-   SURVIVAL GUIDE
-=========================================== */
-
-/* -------------------------------------------
+/* ==========================================
    ELEMENTS
-------------------------------------------- */
+========================================== */
 
 const guideImage = document.getElementById("guideImage");
 
-const controlsButton = document.getElementById("controlsButton");
-const inventoryButton = document.getElementById("inventoryButton");
-const fearButton = document.getElementById("fearButton");
+const controlsButton =
+    document.getElementById("controlsButton");
 
-const closeButton = document.getElementById("closeButton");
-const overlay = document.getElementById("overlay");
+const inventoryButton =
+    document.getElementById("inventoryButton");
 
-/* -------------------------------------------
-   PAGE SETTINGS
-------------------------------------------- */
+const fearButton =
+    document.getElementById("fearButton");
+
+const closeButton =
+    document.getElementById("closeButton");
+
+const overlay =
+    document.getElementById("overlay");
+
+/* ==========================================
+   GUIDE PAGES
+========================================== */
 
 const pages = {
     controls: {
@@ -37,32 +40,53 @@ const pages = {
     }
 };
 
-/* -------------------------------------------
+/* ==========================================
    STARTING PAGE FROM URL
 
-   Normal:
-   https://mong-world.github.io/Doll-maker/
+   Examples:
 
-   Inventory:
-   https://mong-world.github.io/Doll-maker/?page=inventory
+   ?page=controls
+   ?page=inventory
+   ?page=fear
+========================================== */
 
-   Fear:
-   https://mong-world.github.io/Doll-maker/?page=fear
-------------------------------------------- */
+const urlParameters =
+    new URLSearchParams(window.location.search);
 
-const urlParameters = new URLSearchParams(window.location.search);
+const requestedPage =
+    urlParameters.get("page")?.toLowerCase();
 
-const requestedPage = urlParameters
-    .get("page")
-    ?.toLowerCase();
+let currentPage =
+    pages[requestedPage]
+        ? requestedPage
+        : "controls";
 
-let currentPage = pages[requestedPage]
-    ? requestedPage
-    : "controls";
+/* ==========================================
+   UPDATE ACTIVE BUTTON
+========================================== */
 
-/* -------------------------------------------
-   SHOW PAGE
-------------------------------------------- */
+function updateButtons() {
+
+    controlsButton.classList.remove("active");
+    inventoryButton.classList.remove("active");
+    fearButton.classList.remove("active");
+
+    if (currentPage === "controls") {
+        controlsButton.classList.add("active");
+    }
+
+    if (currentPage === "inventory") {
+        inventoryButton.classList.add("active");
+    }
+
+    if (currentPage === "fear") {
+        fearButton.classList.add("active");
+    }
+}
+
+/* ==========================================
+   SHOW GUIDE PAGE
+========================================== */
 
 function showPage(pageName, animate = true) {
 
@@ -70,19 +94,19 @@ function showPage(pageName, animate = true) {
         pageName = "controls";
     }
 
-    if (pageName === currentPage && animate) {
+    const selectedPage = pages[pageName];
+
+    if (!animate) {
+        currentPage = pageName;
+
+        guideImage.src = selectedPage.image;
+        guideImage.alt = selectedPage.alt;
+
         updateButtons();
         return;
     }
 
-    const newPage = pages[pageName];
-
-    if (!animate) {
-        guideImage.src = newPage.image;
-        guideImage.alt = newPage.alt;
-
-        currentPage = pageName;
-
+    if (currentPage === pageName) {
         updateButtons();
         return;
     }
@@ -91,17 +115,12 @@ function showPage(pageName, animate = true) {
 
     window.setTimeout(() => {
 
-        guideImage.src = newPage.image;
-        guideImage.alt = newPage.alt;
-
         currentPage = pageName;
 
-        updateButtons();
+        guideImage.src = selectedPage.image;
+        guideImage.alt = selectedPage.alt;
 
-        /*
-         Remove the fade when the new image
-         has finished loading.
-        */
+        updateButtons();
 
         if (guideImage.complete) {
             guideImage.classList.remove("fade");
@@ -118,38 +137,9 @@ function showPage(pageName, animate = true) {
     }, 180);
 }
 
-/* -------------------------------------------
-   ACTIVE BUTTON
-------------------------------------------- */
-
-function updateButtons() {
-
-    const buttons = [
-        controlsButton,
-        inventoryButton,
-        fearButton
-    ];
-
-    buttons.forEach((button) => {
-        button.classList.remove("active");
-    });
-
-    if (currentPage === "controls") {
-        controlsButton.classList.add("active");
-    }
-
-    if (currentPage === "inventory") {
-        inventoryButton.classList.add("active");
-    }
-
-    if (currentPage === "fear") {
-        fearButton.classList.add("active");
-    }
-}
-
-/* -------------------------------------------
-   NAVIGATION CLICKS
-------------------------------------------- */
+/* ==========================================
+   BUTTON EVENTS
+========================================== */
 
 controlsButton.addEventListener("click", () => {
     showPage("controls");
@@ -163,26 +153,53 @@ fearButton.addEventListener("click", () => {
     showPage("fear");
 });
 
-/* -------------------------------------------
+/* ==========================================
    CLOSE GUIDE
-------------------------------------------- */
+========================================== */
 
 function closeGuide() {
 
     /*
-     Inside Portals, properly close the iframe.
+     Try the common Portals SDK locations.
     */
 
+    const portalsSdk =
+        window.PortalsSdk ||
+        window.portalsSdk ||
+        window.parent?.PortalsSdk;
+
     if (
-        window.PortalsSdk &&
-        typeof window.PortalsSdk.closeIframe === "function"
+        portalsSdk &&
+        typeof portalsSdk.closeIframe === "function"
     ) {
-        window.PortalsSdk.closeIframe();
+        portalsSdk.closeIframe();
         return;
     }
 
     /*
-     Browser preview fallback.
+     Send a fallback message to the parent window.
+     This may work if Portals listens for iframe
+     close messages.
+    */
+
+    try {
+        window.parent.postMessage(
+            {
+                type: "closeIframe",
+                action: "closeIframe"
+            },
+            "*"
+        );
+    } catch (error) {
+        console.warn(
+            "Could not send close message.",
+            error
+        );
+    }
+
+    /*
+     Browser fallback. This hides the guide when
+     testing directly outside Portals.
     */
 
     overlay.style.opacity = "0";
@@ -190,25 +207,20 @@ function closeGuide() {
 
     window.setTimeout(() => {
         overlay.style.display = "none";
-    }, 250);
+    }, 200);
 }
 
 closeButton.addEventListener("click", closeGuide);
 
-/* -------------------------------------------
-   KEYBOARD CONTROLS
-------------------------------------------- */
+/* ==========================================
+   KEYBOARD
+========================================== */
 
 document.addEventListener("keydown", (event) => {
 
     if (event.key === "Escape") {
         closeGuide();
     }
-
-    /*
-     Only use these shortcuts while the
-     guide iframe is open.
-    */
 
     if (event.key === "1") {
         showPage("controls");
@@ -223,50 +235,47 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-/* -------------------------------------------
+/* ==========================================
    OPTIONAL PORTALS MESSAGES
+========================================== */
 
-   A Portals "Send Message To Iframes" effect
-   can send:
+function handleGuideMessage(message) {
 
-   {"page":"inventory"}
+    let data = message;
 
-   This switches an iframe that is already open.
-------------------------------------------- */
-
-function enablePortalsMessages() {
-
-    if (
-        !window.PortalsSdk ||
-        typeof window.PortalsSdk.setMessageListener !== "function"
-    ) {
-        return;
+    if (typeof message === "string") {
+        try {
+            data = JSON.parse(message);
+        } catch {
+            data = {
+                page: message
+            };
+        }
     }
 
-    window.PortalsSdk.setMessageListener((message) => {
+    const pageName =
+        data?.page?.toLowerCase();
 
-        try {
-            const data = JSON.parse(message);
-
-            if (
-                typeof data.page === "string" &&
-                pages[data.page.toLowerCase()]
-            ) {
-                showPage(data.page.toLowerCase());
-            }
-
-        } catch (error) {
-            console.warn(
-                "The guide received an invalid Portals message:",
-                message
-            );
-        }
-    });
+    if (pages[pageName]) {
+        showPage(pageName);
+    }
 }
 
-/* -------------------------------------------
+if (
+    window.PortalsSdk &&
+    typeof window.PortalsSdk.setMessageListener === "function"
+) {
+    window.PortalsSdk.setMessageListener(
+        handleGuideMessage
+    );
+}
+
+window.addEventListener("message", (event) => {
+    handleGuideMessage(event.data);
+});
+
+/* ==========================================
    INITIALISE
-------------------------------------------- */
+========================================== */
 
 showPage(currentPage, false);
-enablePortalsMessages();
