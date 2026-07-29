@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Doll Guide</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div id="overlay">
+
+    <div id="book">
+
+        <button id="closeButton">✕</button>
+
+        <div id="bookShadow"></div>
+
+        <div id="paper">
+
+            <header>
+
+                <h1>The Doll's Guide</h1>
+
+                <p class="subtitle">
+                    Survival Information
+                </p>
+
+            </header>
+
+            <nav>
+
+                <button class="tab active" data-page="controls">
+
+                    <span class="icon">
+                        ⌨
+                    </span>
+
+                    Controls
+
+                </button>
+
+                <button class="tab" data-page="inventory">
+
+                    <span class="icon">
+                        🎒
+                    </span>
+
+                    Inventory Info
+
+                </button>
+
+                <button class="tab" data-page="fear">
+
+                    <span class="icon">
+                        🕯
+                    </span>
+
+                    Fear Info
+
+                </button>
+
+            </nav>
+
+            <main>
+
+                <!-- CONTROLS -->
+
+                <section
+                    class="page active"
+                    id="controls">
+
+                    <div class="row">
+
+                        <span class="key">
+                            WASD
+                        </span>
+
+                        <span class="desc">
+                            Move
+                        </span>
+
+                    </div>
+
+                    <div class="row">
+
+                        <span class="key">
+                            Shift
+                        </span>
+
+                        <span class="desc">
+                            Sprint
+                        </span>
+
+                    </div>
+
+                    <div class="row">
+
+                        <span class="key">
+                            Space
+                        </span>
+
+                        <span class="desc">
+                            Jump
+                        </span>
+
+                    </div>
+
+                    <div class="row">
+
+                        <span class="key">
+                            1
+                        </span>
+
+                        <span class="desc">
+                            Open / Close Inventory
+                        </span>
+
+                    </div>
+
+                </section>
+
+                <!-- INVENTORY -->
+
+                <section
+                    class="page"
+                    id="inventory">
+
+                    <h2>
+
+                        Inventory
+
+                    </h2>
+
+                    <p>
+
+                        Press <strong>1</strong> to open or close your inventory.
+
+                    </p>
+
+                    <p>
+
+                        Use items near objects to unlock new paths and progress.
+
+                    </p>
+
+                </section>
+
+                <!-- FEAR -->
+
+                <section
+                    class="page"
+                    id="fear">
+
+                    <h2>
+
+                        Fear
+
+                    </h2>
+
+                    <p>
+
+                        Lanterns and lights mark safe spaces.
+
+                    </p>
+
+                    <p>
+
+                        Entering a safe space reduces your Fear.
+
+                    </p>
+
+                    <p>
+
+                        If Fear becomes too high,
+                        the doll will perish.
+
+                    </p>
+
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
