@@ -9,26 +9,26 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>The Doll Maker - Survival Guide</title>
+    <title>The Doll Maker – Survival Guide</title>
 
-    <link rel="stylesheet" href="style.css">
+    <!-- v=4 forces GitHub/browser to load the new CSS -->
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 
 <body>
 
     <div id="overlay">
 
-        <div id="guide">
+        <main id="guide">
 
-            <!-- Custom close button -->
+            <!-- This must be an image, not a button -->
             <img
                 id="closeButton"
                 src="assets/cross.png"
-                alt="Close survival guide"
+                alt="Close guide"
                 draggable="false"
             >
 
-            <!-- Main information page -->
             <div id="imageContainer">
 
                 <img
@@ -38,14 +38,13 @@
                     draggable="false"
                 >
 
-                <!-- Buttons sit inside the main page -->
-                <nav id="navigation" aria-label="Survival guide sections">
+                <nav id="navigation" aria-label="Guide sections">
 
                     <img
                         id="controlsButton"
                         class="navButton active"
                         src="assets/controlsbutton.jpeg"
-                        alt="Show controls information"
+                        alt="Controls"
                         draggable="false"
                     >
 
@@ -53,7 +52,7 @@
                         id="inventoryButton"
                         class="navButton"
                         src="assets/inventorybutton.jpeg"
-                        alt="Show inventory information"
+                        alt="Inventory information"
                         draggable="false"
                     >
 
@@ -61,7 +60,7 @@
                         id="fearButton"
                         class="navButton"
                         src="assets/fearinfobutton.jpeg"
-                        alt="Show fear information"
+                        alt="Fear information"
                         draggable="false"
                     >
 
@@ -69,11 +68,12 @@
 
             </div>
 
-        </div>
+        </main>
 
     </div>
 
-    <script src="script.js"></script>
+    <!-- v=4 forces GitHub/browser to load the new JavaScript -->
+    <script src="script.js?v=4"></script>
 
 </body>
 
