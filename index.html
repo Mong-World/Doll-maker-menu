@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
 
@@ -9,72 +8,85 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>The Doll Maker – Survival Guide</title>
+    <title>Survival Guide</title>
 
-    <!-- v=4 forces GitHub/browser to load the new CSS -->
-    <link rel="stylesheet" href="style.css?v=4">
+    <link
+        rel="stylesheet"
+        href="style.css?v=7"
+    >
 </head>
 
 <body>
 
-    <div id="overlay">
+    <main id="overlay">
 
-        <main id="guide">
+        <section id="guideContainer">
 
-            <!-- This must be an image, not a button -->
             <img
-                id="closeButton"
-                src="assets/cross.png"
-                alt="Close guide"
-                draggable="false"
+                id="guideImage"
+                src="assets/controls.jpeg"
+                alt="Controls information"
             >
 
-            <div id="imageContainer">
-
+            <button
+                id="closeButton"
+                type="button"
+                aria-label="Close guide"
+            >
                 <img
-                    id="guideImage"
-                    src="assets/controls.jpeg"
-                    alt="Controls information"
-                    draggable="false"
+                    src="assets/cross.png"
+                    alt=""
                 >
+            </button>
 
-                <nav id="navigation" aria-label="Guide sections">
+            <nav
+                id="navigation"
+                aria-label="Guide pages"
+            >
 
+                <button
+                    id="controlsButton"
+                    class="menuButton active"
+                    type="button"
+                    aria-label="Show controls"
+                >
                     <img
-                        id="controlsButton"
-                        class="navButton active"
                         src="assets/controlsbutton.jpeg"
                         alt="Controls"
-                        draggable="false"
                     >
+                </button>
 
+                <button
+                    id="inventoryButton"
+                    class="menuButton"
+                    type="button"
+                    aria-label="Show inventory information"
+                >
                     <img
-                        id="inventoryButton"
-                        class="navButton"
                         src="assets/inventorybutton.jpeg"
-                        alt="Inventory information"
-                        draggable="false"
+                        alt="Inventory"
                     >
+                </button>
 
+                <button
+                    id="fearButton"
+                    class="menuButton"
+                    type="button"
+                    aria-label="Show fear information"
+                >
                     <img
-                        id="fearButton"
-                        class="navButton"
                         src="assets/fearinfobutton.jpeg"
                         alt="Fear information"
-                        draggable="false"
                     >
+                </button>
 
-                </nav>
+            </nav>
 
-            </div>
+        </section>
 
-        </main>
+    </main>
 
-    </div>
-
-    <!-- v=4 forces GitHub/browser to load the new JavaScript -->
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=7"></script>
 
 </body>
-
 </html>
