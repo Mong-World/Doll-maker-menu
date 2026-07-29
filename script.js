@@ -1,4 +1,10 @@
 /* ==========================================
+   PORTALS TASK
+========================================== */
+
+const IFRAME_TASK_NAME = "Information Menu";
+
+/* ==========================================
    ELEMENTS
 ========================================== */
 
@@ -57,11 +63,10 @@ let currentPage =
         : "controls";
 
 /* ==========================================
-   ACTIVE BUTTON
+   ACTIVE MENU BUTTON
 ========================================== */
 
 function updateButtons() {
-
     controlsButton.classList.remove("active");
     inventoryButton.classList.remove("active");
     fearButton.classList.remove("active");
@@ -80,11 +85,10 @@ function updateButtons() {
 }
 
 /* ==========================================
-   SHOW PAGE
+   SHOW GUIDE PAGE
 ========================================== */
 
 function showPage(pageName, animate = true) {
-
     if (!pages[pageName]) {
         pageName = "controls";
     }
@@ -100,13 +104,13 @@ function showPage(pageName, animate = true) {
     }
 
     if (currentPage === pageName) {
+        updateButtons();
         return;
     }
 
     guideImage.classList.add("fade");
 
     window.setTimeout(() => {
-
         currentPage = pageName;
 
         guideImage.src = selectedPage.image;
@@ -114,23 +118,22 @@ function showPage(pageName, animate = true) {
 
         updateButtons();
 
-        guideImage.addEventListener(
-            "load",
-            () => {
-                guideImage.classList.remove("fade");
-            },
-            { once: true }
-        );
-
         if (guideImage.complete) {
             guideImage.classList.remove("fade");
+        } else {
+            guideImage.addEventListener(
+                "load",
+                () => {
+                    guideImage.classList.remove("fade");
+                },
+                { once: true }
+            );
         }
-
     }, 180);
 }
 
 /* ==========================================
-   MENU BUTTONS
+   MENU BUTTON EVENTS
 ========================================== */
 
 controlsButton.addEventListener("click", () => {
@@ -146,50 +149,76 @@ fearButton.addEventListener("click", () => {
 });
 
 /* ==========================================
-   CLOSE BUTTON
+   CLOSE GUIDE
 ========================================== */
 
-closeButton.addEventListener("click", () => {
+function closeGuide() {
+    if (typeof PortalsSdk !== "undefined") {
 
-    console.log("Close button clicked.");
+        /*
+           Reset the Portals task from Active
+           back to Not Active.
 
-    if (
-        typeof PortalsSdk !== "undefined" &&
-        typeof PortalsSdk.closeIframe === "function"
-    ) {
-        console.log("Closing through Portals SDK.");
-        PortalsSdk.closeIframe();
+           This removes the task-owned iframe
+           effect and allows it to open again.
+        */
+
+        if (
+            typeof PortalsSdk.sendMessageToUnity ===
+            "function"
+        ) {
+            PortalsSdk.sendMessageToUnity(
+                JSON.stringify({
+                    TaskName: IFRAME_TASK_NAME,
+                    TaskTargetState:
+                        "SetActiveToNotActive",
+                    Delay: 0
+                })
+            );
+        }
+
+        /*
+           Close the visible iframe immediately.
+        */
+
+        if (
+            typeof PortalsSdk.closeIframe ===
+            "function"
+        ) {
+            PortalsSdk.closeIframe();
+        }
+
         return;
     }
 
     /*
-       This fallback only runs when viewing the
-       GitHub page outside Portals.
+       Browser-preview fallback.
     */
 
-    console.warn(
-        "Portals SDK unavailable. Hiding browser preview."
-    );
-
     overlay.style.display = "none";
-});
+}
+
+closeButton.addEventListener("click", closeGuide);
 
 /* ==========================================
    ESCAPE KEY
 ========================================== */
 
 document.addEventListener("keydown", (event) => {
-
     if (event.key === "Escape") {
+        closeGuide();
+    }
 
-        if (
-            typeof PortalsSdk !== "undefined" &&
-            typeof PortalsSdk.closeIframe === "function"
-        ) {
-            PortalsSdk.closeIframe();
-        } else {
-            overlay.style.display = "none";
-        }
+    if (event.key === "1") {
+        showPage("controls");
+    }
+
+    if (event.key === "2") {
+        showPage("inventory");
+    }
+
+    if (event.key === "3") {
+        showPage("fear");
     }
 });
 
@@ -202,7 +231,6 @@ if (
     typeof PortalsSdk.setMessageListener === "function"
 ) {
     PortalsSdk.setMessageListener((message) => {
-
         try {
             const data = JSON.parse(message);
             const pageName =
@@ -211,7 +239,6 @@ if (
             if (pages[pageName]) {
                 showPage(pageName);
             }
-
         } catch (error) {
             console.warn(
                 "Invalid Portals message:",
