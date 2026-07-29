@@ -3,340 +3,335 @@
    SURVIVAL GUIDE
 ========================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
-body{
-
-    width:100%;
-    height:100%;
-
-    overflow:hidden;
-
-    font-family:Arial, Helvetica, sans-serif;
-
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    background: #030404;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* ==========================================
    BACKGROUND
 ========================================== */
 
-body{
+#overlay {
+    position: fixed;
+    inset: 0;
 
-    background:#030404;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-}
-
-#overlay{
-
-    position:fixed;
-
-    inset:0;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    padding: 30px;
 
     background:
         radial-gradient(
-            circle,
-            #090909 0%,
-            #050505 55%,
+            circle at center,
+            #090a0a 0%,
+            #050606 55%,
             #030404 100%
         );
 
-    animation:fadeIn .25s ease;
-
+    animation: fadeIn 0.25s ease;
 }
 
 /* ==========================================
    GUIDE WINDOW
 ========================================== */
 
-#guide{
+#guide {
+    position: relative;
 
-    position:relative;
+    width: min(780px, 82vw);
 
-    width:min(1050px,88vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    display:flex;
+    /*
+       Makes room for the buttons extending
+       below the main image.
+    */
+    margin-bottom: 90px;
 
-    flex-direction:column;
-
-    align-items:center;
-
-    animation:popIn .25s ease;
-
+    animation: popIn 0.25s ease;
 }
 
 /* ==========================================
    MAIN IMAGE
 ========================================== */
 
-#imageContainer{
+#imageContainer {
+    position: relative;
 
-    width:100%;
+    width: 100%;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#guideImage{
+#guideImage {
+    width: 100%;
+    height: auto;
 
-    width:100%;
+    display: block;
 
-    height:auto;
-
-    display:block;
-
-    border-radius:4px;
+    border-radius: 4px;
 
     box-shadow:
-        0 22px 60px rgba(0,0,0,.60);
+        0 20px 55px rgba(0, 0, 0, 0.7);
 
     transition:
-        opacity .18s ease,
-        transform .18s ease;
-
+        opacity 0.18s ease,
+        transform 0.18s ease;
 }
 
-#guideImage.fade{
-
-    opacity:0;
-
-    transform:scale(.985);
-
+#guideImage.fade {
+    opacity: 0;
+    transform: scale(0.985);
 }
 
 /* ==========================================
    NAVIGATION
 ========================================== */
 
-#navigation{
+#navigation {
+    position: absolute;
 
-    position:relative;
+    left: 50%;
+    bottom: 0;
 
-    margin-top:-20px;
+    /*
+       Moves most of each button below the image,
+       leaving a small overlap at the top.
+    */
+    transform: translate(-50%, 82%);
 
-    z-index:20;
+    z-index: 20;
 
-    display:flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    justify-content:center;
+    gap: 12px;
 
-    align-items:center;
-
-    gap:18px;
-
-    flex-wrap:wrap;
-
+    width: max-content;
+    max-width: 100%;
 }
 
 /* ==========================================
-   BUTTONS
+   NAVIGATION BUTTONS
 ========================================== */
 
-.navButton{
+.navButton {
+    width: clamp(95px, 15vw, 145px);
+    height: auto;
 
-    width:180px;
+    display: block;
 
-    cursor:pointer;
+    cursor: pointer;
 
     transition:
-        transform .18s ease,
-        filter .18s ease;
+        transform 0.18s ease,
+        filter 0.18s ease,
+        opacity 0.18s ease;
 
     filter:
-        drop-shadow(0 8px 14px rgba(0,0,0,.45));
-
+        drop-shadow(0 7px 11px rgba(0, 0, 0, 0.55));
 }
 
-.navButton:hover{
-
+.navButton:hover {
     transform:
         translateY(-3px)
-        scale(1.03);
-
+        scale(1.025);
 }
 
-.navButton.active{
-
+.navButton.active {
     transform:
-        translateY(-2px)
-        scale(1.05);
+        translateY(-3px)
+        scale(1.035);
 
     filter:
-        brightness(1.15)
-        drop-shadow(0 0 16px rgba(255,210,100,.65));
-
+        brightness(1.12)
+        drop-shadow(0 0 12px rgba(220, 175, 90, 0.55));
 }
 
 /* ==========================================
    CLOSE BUTTON
 ========================================== */
 
-#closeButton{
+#closeButton {
+    position: absolute;
 
-    position:absolute;
+    top: -17px;
+    right: -17px;
 
-    top:-16px;
+    width: 48px;
+    height: 48px;
 
-    right:-16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    width:48px;
+    border: none;
+    border-radius: 50%;
 
-    height:48px;
+    background: #751d1d;
+    color: #ffffff;
 
-    border:none;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
 
-    border-radius:50%;
-
-    background:#751d1d;
-
-    color:white;
-
-    font-size:28px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    z-index:100;
-
-    transition:
-        background .2s ease,
-        transform .2s ease;
+    cursor: pointer;
+    z-index: 100;
 
     box-shadow:
-        0 8px 18px rgba(0,0,0,.5);
+        0 8px 18px rgba(0, 0, 0, 0.55);
 
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
-#closeButton:hover{
-
-    background:#a92c2c;
-
-    transform:
-        scale(1.08);
-
+#closeButton:hover {
+    background: #a52b2b;
+    transform: scale(1.08);
 }
 
 /* ==========================================
    ANIMATIONS
 ========================================== */
 
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
 
-    to{
-
-        opacity:1;
-
+    to {
+        opacity: 1;
     }
-
 }
 
-@keyframes popIn{
-
-    from{
-
-        opacity:0;
+@keyframes popIn {
+    from {
+        opacity: 0;
 
         transform:
-            translateY(20px)
-            scale(.96);
-
+            translateY(18px)
+            scale(0.96);
     }
 
-    to{
-
-        opacity:1;
+    to {
+        opacity: 1;
 
         transform:
             translateY(0)
             scale(1);
-
     }
-
 }
 
 /* ==========================================
-   RESPONSIVE
+   TABLET
 ========================================== */
 
-@media(max-width:1100px){
+@media (max-width: 800px) {
 
-    #guide{
-
-        width:92vw;
-
+    #overlay {
+        padding: 22px;
     }
 
-    .navButton{
-
-        width:160px;
-
+    #guide {
+        width: min(650px, 84vw);
+        margin-bottom: 76px;
     }
 
+    #navigation {
+        gap: 10px;
+        transform: translate(-50%, 82%);
+    }
+
+    .navButton {
+        width: clamp(90px, 20vw, 125px);
+    }
+
+    #closeButton {
+        top: -14px;
+        right: -14px;
+
+        width: 44px;
+        height: 44px;
+
+        font-size: 25px;
+    }
 }
 
-@media(max-width:800px){
+/* ==========================================
+   MOBILE
+========================================== */
 
-    .navButton{
+@media (max-width: 600px) {
 
-        width:135px;
-
+    #overlay {
+        padding: 16px;
     }
 
-    #navigation{
+    #guide {
+        width: 68vw;
+        max-width: 470px;
 
-        gap:14px;
-
-        margin-top:-10px;
-
+        margin-bottom: 68px;
     }
 
-    #closeButton{
+    #navigation {
+        gap: 7px;
 
-        width:44px;
-
-        height:44px;
-
-        font-size:24px;
-
+        /*
+           Slightly less overlap on small screens.
+        */
+        transform: translate(-50%, 80%);
     }
 
+    .navButton {
+        width: clamp(82px, 23vw, 118px);
+    }
+
+    #closeButton {
+        top: -12px;
+        right: -12px;
+
+        width: 42px;
+        height: 42px;
+
+        font-size: 24px;
+    }
 }
 
-@media(max-width:600px){
+/* ==========================================
+   VERY SMALL SCREENS
+========================================== */
 
-    .navButton{
+@media (max-width: 400px) {
 
-        width:105px;
-
+    #guide {
+        width: 72vw;
+        margin-bottom: 60px;
     }
 
-    #navigation{
-
-        gap:8px;
-
-        margin-top:-8px;
-
+    #navigation {
+        gap: 5px;
     }
 
+    .navButton {
+        width: 78px;
+    }
 }
