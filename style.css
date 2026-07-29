@@ -1,10 +1,8 @@
 /* ==========================================
-   THE DOLL MAKER – SURVIVAL GUIDE
+   BASIC RESET
 ========================================== */
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
@@ -12,296 +10,291 @@ html,
 body {
     width: 100%;
     height: 100%;
+
+    margin: 0;
+    padding: 0;
+
     overflow: hidden;
-    background: #030404;
+    background: transparent;
 }
 
-img {
-    display: block;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-user-drag: none;
+button {
+    font: inherit;
 }
 
 /* ==========================================
-   BACKGROUND
+   PAGE
+========================================== */
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================
+   GUIDE OVERLAY
 ========================================== */
 
 #overlay {
-    position: fixed;
-    inset: 0;
+    width: 100%;
+    height: 100%;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 16px;
+    margin: 0;
+    padding: 24px;
 
-    background: #030404;
-
-    animation: overlayFadeIn 0.25s ease;
+    background: transparent;
 }
 
 /* ==========================================
-   GUIDE
+   GUIDE CONTAINER
 ========================================== */
 
-#guide {
+#guideContainer {
     position: relative;
 
-    width: min(720px, 78vw);
-    max-height: 94vh;
+    width: min(92vw, 780px);
+    max-height: calc(100vh - 48px);
 
-    animation: guideOpen 0.25s ease;
+    margin: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 /* ==========================================
-   MAIN PAGE CONTAINER
+   MAIN GUIDE IMAGE
 ========================================== */
-
-#imageContainer {
-    position: relative;
-    width: 100%;
-}
 
 #guideImage {
+    display: block;
+
     width: 100%;
     height: auto;
+    max-height: calc(100vh - 48px);
 
-    border-radius: 4px;
+    object-fit: contain;
 
-    box-shadow:
-        0 18px 55px rgba(0, 0, 0, 0.75);
+    margin: 0;
+    padding: 0;
 
-    transition:
-        opacity 0.18s ease,
-        transform 0.18s ease;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    opacity: 1;
+    transition: opacity 180ms ease;
 }
 
 #guideImage.fade {
     opacity: 0;
-    transform: scale(0.99);
+}
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+#closeButton {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    cursor: pointer;
+    z-index: 1000;
+
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+#closeButton img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+#closeButton:hover {
+    transform: scale(1.08);
+}
+
+#closeButton:active {
+    transform: scale(0.95);
 }
 
 /* ==========================================
    NAVIGATION
-   Lower and centred
 ========================================== */
 
 #navigation {
     position: absolute;
 
     left: 50%;
-    bottom: -16px;
-
-    transform: translateX(-50%);
-
-    z-index: 20;
+    bottom: -18px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    gap: 6px;
+    gap: 5px;
 
-    width: max-content;
-    max-width: 92%;
+    transform: translateX(-50%);
+
+    z-index: 500;
 }
 
-.navButton {
-    width: 58px !important;
-    height: auto !important;
+/* ==========================================
+   MENU BUTTONS
+========================================== */
+
+.menuButton {
+    width: 70px;
+    height: auto;
+
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
 
     cursor: pointer;
 
-    opacity: 0.88;
+    appearance: none;
+    -webkit-appearance: none;
 
-    filter:
-        drop-shadow(0 3px 5px rgba(0, 0, 0, 0.65));
-
-    transition:
-        opacity 0.16s ease,
-        transform 0.16s ease,
-        filter 0.16s ease;
-}
-
-.navButton:hover {
-    opacity: 1;
-    transform: translateY(-2px) scale(1.04);
-}
-
-.navButton.active {
-    opacity: 1;
-
-    transform: translateY(-2px) scale(1.05);
-
-    filter:
-        brightness(1.12)
-        drop-shadow(0 0 7px rgba(220, 175, 90, 0.55));
-}
-
-/* ==========================================
-   CUSTOM CROSS IMAGE
-   Overlaps the top-right corner
-========================================== */
-
-#closeButton {
-    position: absolute;
-
-    top: -12px;
-    right: -12px;
-
-    z-index: 100;
-
-    width: 36px !important;
-    height: 36px !important;
-
-    object-fit: contain;
-
-    cursor: pointer;
-
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    outline: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-
-    opacity: 0.95;
-
-    filter:
-        drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7));
+    opacity: 0.82;
 
     transition:
-        opacity 0.16s ease,
-        transform 0.16s ease,
-        filter 0.16s ease;
+        opacity 150ms ease,
+        transform 150ms ease,
+        filter 150ms ease;
 }
 
-#closeButton:hover {
+.menuButton img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+.menuButton:hover {
     opacity: 1;
-
-    transform: scale(1.08);
-
-    filter:
-        brightness(1.15)
-        drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+    transform: translateY(-3px);
 }
 
-/* ==========================================
-   ANIMATIONS
-========================================== */
-
-@keyframes overlayFadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.menuButton:active {
+    transform: translateY(0) scale(0.96);
 }
 
-@keyframes guideOpen {
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(12px)
-            scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-/* ==========================================
-   TABLET
-========================================== */
-
-@media (max-width: 800px) {
-
-    #guide {
-        width: min(620px, 76vw);
-    }
-
-    #navigation {
-        bottom: -14px;
-        gap: 5px;
-    }
-
-    .navButton {
-        width: 52px !important;
-    }
-
-    #closeButton {
-        top: -10px;
-        right: -10px;
-
-        width: 32px !important;
-        height: 32px !important;
-    }
+.menuButton.active {
+    opacity: 1;
+    transform: translateY(-3px);
+    filter: brightness(1.15);
 }
 
 /* ==========================================
    MOBILE
 ========================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
     #overlay {
-        padding: 10px;
+        padding: 18px;
     }
 
-    #guide {
-        width: 72vw;
-        max-width: 460px;
+    #guideContainer {
+        width: min(94vw, 680px);
+        max-height: calc(100vh - 36px);
     }
 
-    #navigation {
-        bottom: -12px;
-        gap: 4px;
-    }
-
-    .navButton {
-        width: 46px !important;
+    #guideImage {
+        max-height: calc(100vh - 36px);
     }
 
     #closeButton {
         top: -9px;
         right: -9px;
 
-        width: 29px !important;
-        height: 29px !important;
+        width: 38px;
+        height: 38px;
+    }
+
+    #navigation {
+        bottom: -14px;
+        gap: 4px;
+    }
+
+    .menuButton {
+        width: 58px;
     }
 }
 
-/* ==========================================
-   VERY SMALL MOBILE
-========================================== */
+@media (max-width: 430px) {
 
-@media (max-width: 400px) {
+    #overlay {
+        padding: 12px;
+    }
 
-    #guide {
-        width: 76vw;
+    #guideContainer {
+        width: 96vw;
+        max-height: calc(100vh - 24px);
+    }
+
+    #guideImage {
+        max-height: calc(100vh - 24px);
+    }
+
+    #closeButton {
+        top: -6px;
+        right: -6px;
+
+        width: 34px;
+        height: 34px;
     }
 
     #navigation {
         bottom: -10px;
+        gap: 3px;
     }
 
-    .navButton {
-        width: 42px !important;
-    }
-
-    #closeButton {
-        width: 27px !important;
-        height: 27px !important;
+    .menuButton {
+        width: 50px;
     }
 }
