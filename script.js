@@ -2,7 +2,8 @@
    ELEMENTS
 ========================================== */
 
-const guideImage = document.getElementById("guideImage");
+const guideImage =
+    document.getElementById("guideImage");
 
 const controlsButton =
     document.getElementById("controlsButton");
@@ -42,12 +43,6 @@ const pages = {
 
 /* ==========================================
    STARTING PAGE FROM URL
-
-   Examples:
-
-   ?page=controls
-   ?page=inventory
-   ?page=fear
 ========================================== */
 
 const urlParameters =
@@ -62,7 +57,7 @@ let currentPage =
         : "controls";
 
 /* ==========================================
-   UPDATE ACTIVE BUTTON
+   ACTIVE BUTTON
 ========================================== */
 
 function updateButtons() {
@@ -85,7 +80,7 @@ function updateButtons() {
 }
 
 /* ==========================================
-   SHOW GUIDE PAGE
+   SHOW PAGE
 ========================================== */
 
 function showPage(pageName, animate = true) {
@@ -98,16 +93,13 @@ function showPage(pageName, animate = true) {
 
     if (!animate) {
         currentPage = pageName;
-
         guideImage.src = selectedPage.image;
         guideImage.alt = selectedPage.alt;
-
         updateButtons();
         return;
     }
 
     if (currentPage === pageName) {
-        updateButtons();
         return;
     }
 
@@ -122,23 +114,23 @@ function showPage(pageName, animate = true) {
 
         updateButtons();
 
+        guideImage.addEventListener(
+            "load",
+            () => {
+                guideImage.classList.remove("fade");
+            },
+            { once: true }
+        );
+
         if (guideImage.complete) {
             guideImage.classList.remove("fade");
-        } else {
-            guideImage.addEventListener(
-                "load",
-                () => {
-                    guideImage.classList.remove("fade");
-                },
-                { once: true }
-            );
         }
 
     }, 180);
 }
 
 /* ==========================================
-   BUTTON EVENTS
+   MENU BUTTONS
 ========================================== */
 
 controlsButton.addEventListener("click", () => {
@@ -154,125 +146,80 @@ fearButton.addEventListener("click", () => {
 });
 
 /* ==========================================
-   CLOSE GUIDE
+   CLOSE BUTTON
 ========================================== */
 
-function closeGuide() {
+closeButton.addEventListener("click", () => {
 
-    /*
-     Try the common Portals SDK locations.
-    */
-
-    const portalsSdk =
-        window.PortalsSdk ||
-        window.portalsSdk ||
-        window.parent?.PortalsSdk;
+    console.log("Close button clicked.");
 
     if (
-        portalsSdk &&
-        typeof portalsSdk.closeIframe === "function"
+        typeof PortalsSdk !== "undefined" &&
+        typeof PortalsSdk.closeIframe === "function"
     ) {
-        portalsSdk.closeIframe();
+        console.log("Closing through Portals SDK.");
+        PortalsSdk.closeIframe();
         return;
     }
 
     /*
-     Send a fallback message to the parent window.
-     This may work if Portals listens for iframe
-     close messages.
+       This fallback only runs when viewing the
+       GitHub page outside Portals.
     */
 
-    try {
-        window.parent.postMessage(
-            {
-                type: "closeIframe",
-                action: "closeIframe"
-            },
-            "*"
-        );
-    } catch (error) {
-        console.warn(
-            "Could not send close message.",
-            error
-        );
-    }
+    console.warn(
+        "Portals SDK unavailable. Hiding browser preview."
+    );
 
-    /*
-     Browser fallback. This hides the guide when
-     testing directly outside Portals.
-    */
-
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
-
-    window.setTimeout(() => {
-        overlay.style.display = "none";
-    }, 200);
-}
-
-closeButton.addEventListener("click", closeGuide);
+    overlay.style.display = "none";
+});
 
 /* ==========================================
-   KEYBOARD
+   ESCAPE KEY
 ========================================== */
 
 document.addEventListener("keydown", (event) => {
 
     if (event.key === "Escape") {
-        closeGuide();
-    }
 
-    if (event.key === "1") {
-        showPage("controls");
-    }
-
-    if (event.key === "2") {
-        showPage("inventory");
-    }
-
-    if (event.key === "3") {
-        showPage("fear");
+        if (
+            typeof PortalsSdk !== "undefined" &&
+            typeof PortalsSdk.closeIframe === "function"
+        ) {
+            PortalsSdk.closeIframe();
+        } else {
+            overlay.style.display = "none";
+        }
     }
 });
 
 /* ==========================================
-   OPTIONAL PORTALS MESSAGES
+   RECEIVE PORTALS MESSAGES
 ========================================== */
 
-function handleGuideMessage(message) {
-
-    let data = message;
-
-    if (typeof message === "string") {
-        try {
-            data = JSON.parse(message);
-        } catch {
-            data = {
-                page: message
-            };
-        }
-    }
-
-    const pageName =
-        data?.page?.toLowerCase();
-
-    if (pages[pageName]) {
-        showPage(pageName);
-    }
-}
-
 if (
-    window.PortalsSdk &&
-    typeof window.PortalsSdk.setMessageListener === "function"
+    typeof PortalsSdk !== "undefined" &&
+    typeof PortalsSdk.setMessageListener === "function"
 ) {
-    window.PortalsSdk.setMessageListener(
-        handleGuideMessage
-    );
-}
+    PortalsSdk.setMessageListener((message) => {
 
-window.addEventListener("message", (event) => {
-    handleGuideMessage(event.data);
-});
+        try {
+            const data = JSON.parse(message);
+            const pageName =
+                data.page?.toLowerCase();
+
+            if (pages[pageName]) {
+                showPage(pageName);
+            }
+
+        } catch (error) {
+            console.warn(
+                "Invalid Portals message:",
+                message
+            );
+        }
+    });
+}
 
 /* ==========================================
    INITIALISE
