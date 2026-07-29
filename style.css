@@ -1,6 +1,5 @@
 /* ==========================================
-   THE DOLL MAKER
-   SURVIVAL GUIDE
+   THE DOLL MAKER – SURVIVAL GUIDE
 ========================================== */
 
 * {
@@ -13,17 +12,12 @@ html,
 body {
     width: 100%;
     height: 100%;
-
     overflow: hidden;
-
     background: #030404;
-
-    font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Prevent images being highlighted or dragged */
-
 img {
+    display: block;
     user-select: none;
     -webkit-user-select: none;
     -webkit-user-drag: none;
@@ -38,20 +32,14 @@ img {
     inset: 0;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    padding: 24px;
+    padding: 16px;
 
-    background:
-        radial-gradient(
-            circle at center,
-            #090a0a 0%,
-            #050606 55%,
-            #030404 100%
-        );
+    background: #030404;
 
-    animation: fadeIn 0.25s ease;
+    animation: overlayFadeIn 0.25s ease;
 }
 
 /* ==========================================
@@ -61,44 +49,29 @@ img {
 #guide {
     position: relative;
 
-    width: min(760px, 80vw);
-    max-height: 92vh;
+    width: min(720px, 78vw);
+    max-height: 94vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    animation: popIn 0.25s ease;
+    animation: guideOpen 0.25s ease;
 }
 
 /* ==========================================
-   IMAGE CONTAINER
+   MAIN PAGE
 ========================================== */
 
 #imageContainer {
     position: relative;
-
     width: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
-
-/* ==========================================
-   MAIN INFORMATION IMAGE
-========================================== */
 
 #guideImage {
     width: 100%;
     height: auto;
 
-    display: block;
-
     border-radius: 4px;
 
     box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.7);
+        0 18px 55px rgba(0, 0, 0, 0.75);
 
     transition:
         opacity 0.18s ease,
@@ -107,107 +80,112 @@ img {
 
 #guideImage.fade {
     opacity: 0;
-    transform: scale(0.985);
+    transform: scale(0.99);
 }
 
 /* ==========================================
    NAVIGATION
-   Positioned inside the main page
+   Small buttons inside the main page
 ========================================== */
 
 #navigation {
     position: absolute;
 
     left: 50%;
-    bottom: 3%;
+    bottom: 10px;
 
     transform: translateX(-50%);
 
     z-index: 20;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    gap: 8px;
+    gap: 6px;
 
     width: max-content;
-    max-width: 92%;
+    max-width: 90%;
 }
 
-/* ==========================================
-   NAVIGATION BUTTONS
-========================================== */
+/* Fixed small size so previous clamp rules
+   cannot make the buttons large again. */
 
 .navButton {
-    width: clamp(62px, 10vw, 90px);
-    height: auto;
-
-    display: block;
+    width: 58px !important;
+    height: auto !important;
 
     cursor: pointer;
 
-    border-radius: 2px;
-
-    opacity: 0.9;
+    opacity: 0.86;
 
     filter:
-        drop-shadow(0 4px 7px rgba(0, 0, 0, 0.55));
+        drop-shadow(0 3px 5px rgba(0, 0, 0, 0.65));
 
     transition:
-        transform 0.18s ease,
-        filter 0.18s ease,
-        opacity 0.18s ease;
+        opacity 0.16s ease,
+        transform 0.16s ease,
+        filter 0.16s ease;
 }
 
 .navButton:hover {
     opacity: 1;
-
-    transform:
-        translateY(-2px)
-        scale(1.04);
+    transform: translateY(-2px) scale(1.04);
 }
 
 .navButton.active {
     opacity: 1;
 
-    transform:
-        translateY(-2px)
-        scale(1.05);
+    transform: translateY(-2px) scale(1.05);
 
     filter:
-        brightness(1.14)
-        drop-shadow(0 0 9px rgba(220, 175, 90, 0.6));
+        brightness(1.12)
+        drop-shadow(0 0 7px rgba(220, 175, 90, 0.55));
 }
 
 /* ==========================================
-   CUSTOM CLOSE IMAGE
+   CUSTOM CROSS IMAGE
+
+   All button-like styling is explicitly
+   removed, including the old red circle.
 ========================================== */
 
 #closeButton {
     position: absolute;
 
-    top: 12px;
-    right: 12px;
-
-    width: clamp(28px, 4.5vw, 42px);
-    height: auto;
-
-    display: block;
-
-    cursor: pointer;
+    top: 10px;
+    right: 10px;
 
     z-index: 100;
 
-    opacity: 0.92;
+    width: 34px !important;
+    height: 34px !important;
+
+    object-fit: contain;
+
+    cursor: pointer;
+
+    /* Explicitly remove old button styling */
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    background: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    opacity: 0.9;
 
     filter:
-        drop-shadow(0 4px 8px rgba(0, 0, 0, 0.65));
+        drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7));
 
     transition:
-        transform 0.18s ease,
-        filter 0.18s ease,
-        opacity 0.18s ease;
+        opacity 0.16s ease,
+        transform 0.16s ease,
+        filter 0.16s ease;
 }
 
 #closeButton:hover {
@@ -215,16 +193,19 @@ img {
 
     transform: scale(1.08);
 
+    background: none !important;
+    background-color: transparent !important;
+
     filter:
         brightness(1.15)
-        drop-shadow(0 0 8px rgba(255, 255, 255, 0.22));
+        drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
 }
 
 /* ==========================================
    ANIMATIONS
 ========================================== */
 
-@keyframes fadeIn {
+@keyframes overlayFadeIn {
     from {
         opacity: 0;
     }
@@ -234,50 +215,43 @@ img {
     }
 }
 
-@keyframes popIn {
+@keyframes guideOpen {
     from {
         opacity: 0;
-
-        transform:
-            translateY(16px)
-            scale(0.97);
+        transform: translateY(12px) scale(0.98);
     }
 
     to {
         opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform: translateY(0) scale(1);
     }
 }
 
 /* ==========================================
-   TABLET
+   TABLETS
 ========================================== */
 
 @media (max-width: 800px) {
 
-    #overlay {
-        padding: 18px;
-    }
-
     #guide {
-        width: min(620px, 82vw);
+        width: min(620px, 76vw);
     }
 
     #navigation {
-        bottom: 3%;
-        gap: 7px;
+        bottom: 8px;
+        gap: 5px;
     }
 
     .navButton {
-        width: clamp(58px, 12vw, 78px);
+        width: 52px !important;
     }
 
     #closeButton {
-        top: 9px;
-        right: 9px;
+        top: 8px;
+        right: 8px;
+
+        width: 31px !important;
+        height: 31px !important;
     }
 }
 
@@ -288,48 +262,48 @@ img {
 @media (max-width: 600px) {
 
     #overlay {
-        padding: 12px;
+        padding: 10px;
     }
 
     #guide {
-        width: 74vw;
-        max-width: 470px;
+        width: 72vw;
+        max-width: 460px;
     }
 
     #navigation {
-        bottom: 2.5%;
-        gap: 5px;
-        max-width: 94%;
+        bottom: 7px;
+        gap: 4px;
     }
 
     .navButton {
-        width: clamp(52px, 17vw, 72px);
+        width: 46px !important;
     }
 
     #closeButton {
         top: 7px;
         right: 7px;
 
-        width: clamp(26px, 8vw, 36px);
+        width: 28px !important;
+        height: 28px !important;
     }
 }
 
 /* ==========================================
-   VERY SMALL SCREENS
+   VERY SMALL MOBILE
 ========================================== */
 
 @media (max-width: 400px) {
 
     #guide {
-        width: 78vw;
-    }
-
-    #navigation {
-        bottom: 2%;
-        gap: 4px;
+        width: 76vw;
     }
 
     .navButton {
-        width: 54px;
+        width: 42px !important;
+    }
+
+    #closeButton {
+        width: 26px !important;
+        height: 26px !important;
     }
 }
