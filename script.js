@@ -1,224 +1,192 @@
-/*
-==========================================
- THE DOLL'S GUIDE
- Notebook Interface Controller
-==========================================
-*/
-
+/* ===========================================
+   THE DOLL MAKER
+   SURVIVAL GUIDE
+=========================================== */
 
 // -----------------------------
 // Elements
 // -----------------------------
 
-const tabs = document.querySelectorAll(".tab");
+const guideImage = document.getElementById("guideImage");
 
-const pages = document.querySelectorAll(".page");
+const controlsButton = document.getElementById("controlsButton");
+const inventoryButton = document.getElementById("inventoryButton");
+const fearButton = document.getElementById("fearButton");
 
 const closeButton = document.getElementById("closeButton");
-
 const overlay = document.getElementById("overlay");
 
-
 // -----------------------------
-// Remember current page
-// -----------------------------
-
-let currentPage = localStorage.getItem("guidePage") || "controls";
-
-
-// Load saved page
-
-openPage(currentPage);
-
-
-// -----------------------------
-// Tab switching
+// Image Paths
 // -----------------------------
 
-tabs.forEach(tab => {
+const pages = {
 
+    controls: "assets/controls.jpeg",
 
-    tab.addEventListener("click", () => {
+    inventory: "assets/inventory.jpeg",
 
+    fear: "assets/fearinfo.jpeg"
 
-        const selectedPage = tab.dataset.page;
-
-
-        openPage(selectedPage);
-
-
-        // Optional sound hook
-
-        playPageSound();
-
-
-    });
-
-
-});
-
+};
 
 // -----------------------------
-// Open page function
+// Current Page
 // -----------------------------
 
-function openPage(pageName){
+let currentPage = "controls";
 
+// -----------------------------
+// Change Page
+// -----------------------------
 
-    pages.forEach(page => {
+function showPage(page){
 
+    if(page === currentPage) return;
 
-        page.classList.remove("active");
+    guideImage.classList.add("fade");
 
+    setTimeout(() => {
 
-    });
+        guideImage.src = pages[page];
 
+        guideImage.onload = () => {
 
-    tabs.forEach(tab => {
+            guideImage.classList.remove("fade");
 
+        };
 
-        tab.classList.remove("active");
+    },180);
 
+    currentPage = page;
 
-    });
-
-
-    const page = document.getElementById(pageName);
-
-
-    const tab = document.querySelector(
-        `[data-page="${pageName}"]`
-    );
-
-
-    if(page){
-
-        page.classList.add("active");
-
-    }
-
-
-    if(tab){
-
-        tab.classList.add("active");
-
-    }
-
-
-    localStorage.setItem(
-        "guidePage",
-        pageName
-    );
-
+    updateButtons();
 
 }
 
+// -----------------------------
+// Active Button
+// -----------------------------
+
+function updateButtons(){
+
+    document
+        .querySelectorAll(".navButton")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
+
+    if(currentPage === "controls"){
+
+        controlsButton.classList.add("active");
+
+    }
+
+    if(currentPage === "inventory"){
+
+        inventoryButton.classList.add("active");
+
+    }
+
+    if(currentPage === "fear"){
+
+        fearButton.classList.add("active");
+
+    }
+
+}
 
 // -----------------------------
-// Close notebook
+// Button Events
 // -----------------------------
 
-closeButton.addEventListener(
-"click",
-closeGuide
-);
+controlsButton.addEventListener("click", () => {
 
+    showPage("controls");
+
+});
+
+inventoryButton.addEventListener("click", () => {
+
+    showPage("inventory");
+
+});
+
+fearButton.addEventListener("click", () => {
+
+    showPage("fear");
+
+});
+
+// -----------------------------
+// Close Guide
+// -----------------------------
 
 function closeGuide(){
 
+    overlay.style.opacity = "0";
 
-    overlay.style.animation =
-    "fadeOut .25s forwards";
+    overlay.style.pointerEvents = "none";
 
+    setTimeout(() => {
 
-    setTimeout(()=>{
-
-
-        overlay.style.display="none";
-
+        overlay.style.display = "none";
 
     },250);
 
-
 }
 
+closeButton.addEventListener("click", closeGuide);
 
 // -----------------------------
-// ESC key closes menu
+// ESC Key
 // -----------------------------
 
-document.addEventListener(
-"keydown",
-(event)=>{
+document.addEventListener("keydown",(event)=>{
 
-
-    if(event.key==="Escape"){
-
+    if(event.key === "Escape"){
 
         closeGuide();
 
-
     }
-
 
 });
 
-
 // -----------------------------
-// Page turn sound
+// Keyboard Shortcuts
 // -----------------------------
 //
-// Add your own sound later:
-//
-// assets/page-turn.mp3
-//
-// Uncomment when ready
+// 1 = Controls
+// 2 = Inventory
+// 3 = Fear
 //
 
-function playPageSound(){
+document.addEventListener("keydown",(event)=>{
 
+    if(event.key === "1"){
 
-    /*
-    const sound =
-    new Audio(
-    "assets/page-turn.mp3"
-    );
+        showPage("controls");
 
-    sound.volume=.35;
+    }
 
-    sound.play();
-    */
+    if(event.key === "2"){
 
+        showPage("inventory");
 
-}
+    }
 
+    if(event.key === "3"){
+
+        showPage("fear");
+
+    }
+
+});
 
 // -----------------------------
-// Fade animation
+// Initialise
 // -----------------------------
 
-const style = document.createElement("style");
-
-
-style.innerHTML = `
-
-@keyframes fadeOut {
-
-from{
-
-opacity:1;
-
-}
-
-to{
-
-opacity:0;
-
-}
-
-}
-
-`;
-
-
-document.head.appendChild(style);
+updateButtons();
